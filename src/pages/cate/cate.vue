@@ -3,9 +3,9 @@
     <el-button type="primary" @click="willAdd">添加</el-button>
 
     <!-- list -->
-    <v-list></v-list>
+    <v-list @edit="edit"></v-list>
     <!-- form -->
-    <v-form :info="info"></v-form>
+    <v-form :info="info" ref="form"></v-form>
   </div>
 </template>
 
@@ -29,8 +29,15 @@ export default {
         title: "添加商品",
       };
     },
+    // 编辑
+    edit(id) {
+      this.info = {
+        isshow: true,
+        title: "编辑商品",
+      };
+      this.$refs.form.getOne(id)
+    },
   },
-
   components: {
     vList,
     vForm,

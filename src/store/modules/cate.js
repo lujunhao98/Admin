@@ -15,6 +15,7 @@ const actions = {
         //发起请求，成功之后 修改list
         reqcateList({istree:true}).then(res=>{
             context.commit('changeList',res.data.list)
+            console.log(res);
         })
     }
 }
@@ -25,6 +26,6 @@ const getters = {
 }
 
 export default {
-    state,mutations,getters,actions,
+    state, mutations, getters, actions,
     namespaced: true
 }

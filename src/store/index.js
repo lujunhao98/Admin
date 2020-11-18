@@ -4,7 +4,7 @@ Vue.use(Vuex)
 import actions from './actions'
 import {state,mutations,getters} from './mutations'
 import cate from './modules/cate'
-
+import specs from './modules/specs'
 export default new Vuex.Store({
     state,
     mutations,
@@ -12,5 +12,6 @@ export default new Vuex.Store({
     actions,
     modules:{
         cate,
+        specs,
     }
 })

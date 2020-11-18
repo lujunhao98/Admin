@@ -37,11 +37,6 @@ import { successAlert, errorAlert } from "../../../ustil/alert";
 import { reqMenudel } from "../../../ustil/https";
 export default {
   props: ["list"],
-  data() {
-    return {
-      //列表数据
-    };
-  },
   methods: {
     del(id) {
       console.log(id);

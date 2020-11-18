@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog :title="info.title" :visible.sync="info.isshow">
+    <el-dialog :title="info.title" :visible.sync="info.isshow" @closed="closed">
       <el-form :model="form">
         <el-form-item label="上级分类" label-width="120px">
           <el-select v-model="form.pid" placeholder="请选择角色">
@@ -9,7 +9,7 @@
               v-for="item in cateList"
               :key="item.id"
               :label="item.catename"
-              value="item.id"
+              :value="item.id"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -31,7 +31,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancel">取 消</el-button>
-        <el-button type="primary" @click="add">添 加</el-button>
+        <el-button type="primary" v-if="info.title==='添加商品'" @click="add">添 加</el-button>
+        <el-button type="primary" v-else @click="upDeta">修 改</el-button>
       </div>
     </el-dialog>
   </div>
@@ -40,7 +41,12 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import { errorAlert, successAlert } from "../../../ustil/alert";
-import { reqcateAdd, reqcateList } from "../../../ustil/https";
+import {
+  reqcateAdd,
+  reqRoleList,
+  reqcateDetail,
+  reqcateUpdate,
+} from "../../../ustil/https";
 import { SuccessAlert } from "../../../ustil/alert";
 import path from "path";
 export default {
@@ -63,7 +69,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      reqlist: "cate/reqList",
+      reqList: "cate/reqList",
     }),
     //选择了文件
     changeFile(e) {
@@ -115,18 +121,42 @@ export default {
           //清空
           this.empty();
           //   刷新
-          this.reqlist();
+          this.reqList();
         }
       });
     },
-  },
-  mounted() {
-    //   12.一进来，先获取菜单列表数据
-    reqRoleList().then((res) => {
-      if (res.data.code == 200) {
-        this.roleList = res.data.list;
+    // 获取一条数据
+    getOne(id) {
+      reqcateDetail(id).then((res) => {
+        //此时，form没有id 补 id
+
+        this.form = res.data.list;
+        // 单独处理img
+        this.imgUrl = this.$imgPre + this.form.img;
+        //补id
+        this.form.id = id;
+      });
+    },
+    upDeta() {
+      reqcateUpdate(this.form).then((res) => {
+        if (res.data.code === 200) {
+          //成功弹窗
+          successAlert("修改成功");
+          //弹窗消失
+          this.cancel();
+          //清楚form
+          this.empty();
+          //刷新
+          this.reqList();
+        }
+      });
+    },
+    //处理bug
+    closed() {
+      if (this.info.title === "编辑商品") {
+        this.empty();
       }
-    });
+    },
   },
 };
 </script>
@@ -135,6 +165,7 @@ export default {
 .myupload {
   width: 150px;
   height: 130px;
+  font-size: 0;
   text-align: center;
   border: 1px solid skyblue;
 }
@@ -147,7 +178,6 @@ h3 {
 .myupload .img {
   width: 150px;
   height: 100%;
-  font-size: 0;
   position: absolute;
   top: 0;
   left: 0;

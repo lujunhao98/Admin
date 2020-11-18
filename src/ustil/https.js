@@ -3,11 +3,11 @@ import qs from 'qs'
 import Vue from 'vue'
 import { errorAlert } from '../ustil/alert'
 import store from '../store'
-import router from '../router/index'
+import router from '../router'
 
 //开发环境使用 8080
 let baseUrl = '/aa'
-Vue.prototype.$imgPre='http://localhost:3000'
+Vue.prototype.$imgPre = 'http://localhost:3000'
 
 //上线用 打包
 //  let baseUrl =''
@@ -31,7 +31,7 @@ axios.interceptors.response.use(res => {
         errorAlert(res.data.msg)
     }
     //掉线处理
-    if (res.data.msg === '登录已过期或者访问权限受限')//掉线
+    if (res.data.msg == '登录已过期或访问权限受限')//掉线
     {   //清除登陆信息
         store.dispatch('changeUser', {})
         //跳转页面
@@ -192,7 +192,7 @@ export const reqlogin = (user) => {
     })
 }
 // ==========管理员管理  结束======
-// ==========商品分类管理  开始======
+// ==========商品分类  开始======
 
 //商品分类添加 包含文件
 export const reqcateAdd = (cate) => {
@@ -200,13 +200,13 @@ export const reqcateAdd = (cate) => {
     let d = new FormData()
 
     for (let i in cate) {
-        d.append(i,cate[i])
+        d.append(i, cate[i])
     }
 
     return axios({
         url: baseUrl + '/api/cateadd',
         method: 'post',
-        data:d
+        data: d
     })
 }
 //18.列表 p={istree:true}  p={pid:1}
@@ -253,4 +253,78 @@ export const reqcateUpdate = (cate) => {
     })
 }
 
-// ==========商品分类管理  结束======
+// ==========商品分类  结束======
+// ==========商品规格  开始======
+//商品规格添加
+export const reqSpecsAdd = (form) => {
+    return axios({
+        url: baseUrl + '/api/specsadd',
+        method: 'post',
+        data: qs.stringify(form)
+    })
+}
+//规格列表
+export const reqSpecsList = (p) => {
+    return axios({
+        url: baseUrl + '/api/specslist',
+        method: 'get',
+        params: p
+    })
+}
+// 商品规格总数（用于计算分页）
+export const reqSpecsCount = () => {
+    return axios({
+        url: baseUrl + "/api/specscount",
+        method: "get",
+    })
+}
+
+//获取一条数据
+export const reqSpecsInfo = (id) => {
+    return axios({
+        url: baseUrl + '/api/specsinfo',
+        method: 'get',
+        params: {
+            id: id
+        }
+    })
+}
+//商品规格删除
+export const reqSpecsdel = (id) => {
+    return axios({
+        url: baseUrl + '/api/specsdelete',
+        method: 'post',
+        data: qs.stringify({
+            id: id
+        })
+    })
+}
+// ==========商品规格  结束======
+// ==========会员管理 开始======
+//会员列表
+export const reqMemberList = () => {
+    return axios({
+        url: baseUrl + '/api/memberlist',
+        method: 'get',
+    })
+}
+
+//获取一条数据
+export const reqMemberInfo = (uid) => {
+    return axios({
+        url: baseUrl + '/api/memberinfo',
+        method: 'get',
+        params: {
+            uid: uid
+        }
+    })
+}
+//会员修改
+export const reqMemberedit = (user) => {
+    return axios({
+        url: baseUrl + '/api/memberedit',
+        method: 'post',
+        data:qs.stringify(user)
+    })
+}
+// ==========会员管理  结束======

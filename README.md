@@ -1,21 +1,34 @@
-# admin
+# 一，系统设置
 
-> A Vue.js project
+## 1，菜单管理
 
-## Build Setup
+### ok
 
-``` bash
-# install dependencies
-npm install
+## 2，角色管理
 
-# serve with hot reload at localhost:8080
-npm run dev
+### ok
 
-# build for production with minification
-npm run build
+## 3，管理员管理
 
-# build for production and view the bundle analyzer report
-npm run build --report
-```
+### ok
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+# 二，商城管理
+
+## 1，商品分类
+
+### ok
+
+## 2，商品规格
+
+### ok
+
+### 3，商品管理
+
+## no
+
+## 4，会员管理
+
+## 在写()
+
+## 5其他还没写
+
