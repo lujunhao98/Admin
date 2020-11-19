@@ -183,6 +183,14 @@ export const reqManageCount = () => {
         method: "get",
     })
 }
+//修改
+export const reqUserUpdate = (user) => {
+    return axios({
+        url: baseUrl + "/api/useredit",
+        method: "post",
+        data: qs.stringify(user)
+    })
+}
 //管理员登录
 export const reqlogin = (user) => {
     return axios({
@@ -300,6 +308,11 @@ export const reqSpecsdel = (id) => {
     })
 }
 // ==========商品规格  结束======
+// ==========商品管理  开始======
+
+
+
+// ==========商品管理  结束======
 // ==========会员管理 开始======
 //会员列表
 export const reqMemberList = () => {
@@ -324,7 +337,62 @@ export const reqMemberedit = (user) => {
     return axios({
         url: baseUrl + '/api/memberedit',
         method: 'post',
-        data:qs.stringify(user)
+        data: qs.stringify(user)
     })
 }
 // ==========会员管理  结束======
+// ==========轮播图管理  开始======
+// 轮播图添加
+export const reqBannerAdd = (cate) => {
+    //有文件处理
+    let d = new FormData()
+    for (let i in cate) {
+        d.append(i, cate[i])
+    }
+    return axios({
+        url: baseUrl + '/api/banneradd',
+        method: 'post',
+        data: d
+    })
+}
+
+// 轮播图列表
+export const reqBannerList = () => {
+    return axios({
+        url: baseUrl + '/api/bannerlist',
+        method: 'get',
+    })
+}
+// 获取一条数据
+export const reqBannerInfo = (id) => {
+    return axios({
+        url: baseUrl + '/api/bannerinfo',
+        method: 'get',
+        params: {
+            id: id
+        }
+    })
+}
+// 轮播修改
+export const reqBannerUpdate = (cate) => {
+    let d = new FormData()
+    for (let i in cate) {
+        d.append(i, cate[i])
+    }
+    return axios({
+        url: baseUrl + '/api/banneredit',
+        method: 'post',
+        data: d
+    })
+}
+// 轮播图删除
+export const reqBannerdel = (id) => {
+    return axios({
+        url: baseUrl + '/api/bannerdelete',
+        method: 'post',
+        data: qs.stringify({
+            id: id
+        })
+    })
+}
+// ==========轮播图管理  结束======

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog :title="info.title" :visible.sync="info.isshow" @closed='closed'>
+    <el-dialog :title="info.title" :visible.sync="info.isshow" @closed="closed">
       <el-form :model="user">
         <el-form-item label="所属角色" label-width="120px">
           <el-select v-model="user.roleid" placeholder="请所属角色">
@@ -25,14 +25,19 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancel">取 消</el-button>
         <el-button type="primary" @click="add" v-if="info.title==='添加用户'">添 加</el-button>
-        <el-button type="primary" v-else @click="update()">修 改</el-button>
+        <el-button type="primary" v-else @click="update">修 改</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { reqRoleList, reqManageAdd, reqManageInfo } from "../../../ustil/https";
+import {
+  reqRoleList,
+  reqManageAdd,
+  reqManageInfo,
+  reqUserUpdate,
+} from "../../../ustil/https";
 import { successAlert } from "../../../ustil/alert";
 export default {
   props: ["info"],
@@ -77,12 +82,28 @@ export default {
         this.user = res.data.list;
         //处理密码
         this.user.password = "";
+        
+      });
+    },
+    //39 修改
+    update() {
+      reqUserUpdate(this.user).then((res) => {
+        if (res.data.code == 200) {
+          //弹成功
+          successAlert("修改成功");
+          //弹框消失
+          this.cancel();
+          //数据清空
+          this.empty();
+          //刷新list
+          this.$emit("init");
+        }
       });
     },
     //处理消失
     closed() {
-      if(this.info.title==='编辑用户'){
-        this.empty()
+      if (this.info.title === "编辑用户") {
+        this.empty();
       }
     },
   },

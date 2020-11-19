@@ -62,7 +62,7 @@ export default {
     //获取总数
     getCount() {
       reqManageCount().then((res) => {
-        console.log(res);
+        // console.log(res);
         this.total = res.data.list[0].total;
       });
     },

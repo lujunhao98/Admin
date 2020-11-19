@@ -5,6 +5,7 @@ import actions from './actions'
 import {state,mutations,getters} from './mutations'
 import cate from './modules/cate'
 import specs from './modules/specs'
+import banner from './modules/banner'
 export default new Vuex.Store({
     state,
     mutations,
@@ -13,5 +14,6 @@ export default new Vuex.Store({
     modules:{
         cate,
         specs,
+        banner
     }
 })

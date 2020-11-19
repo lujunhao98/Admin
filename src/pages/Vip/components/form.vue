@@ -19,13 +19,15 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancel">取 消</el-button>
-        <el-button type="primary">修 改</el-button>
+        <el-button type="primary" @click="update">修 改</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import { successAlert } from "../../../ustil/alert";
+import { reqMemberInfo, reqMemberedit } from "../../../ustil/https";
 export default {
   props: ["info"],
   data() {
@@ -40,8 +42,35 @@ export default {
     };
   },
   methods: {
+    //弹框消失
     cancel() {
       this.info.isshow = false;
+    },
+    //清楚user
+    empty() {
+      this.user = {
+        uid: "",
+        nickname: "",
+        phone: "",
+        password: "",
+        status: 1,
+      };
+    },
+    // 获取一条数据
+    getOne(uid) {
+      reqMemberInfo(uid).then((res) => {
+        this.user = res.data.list;
+        this.user.password = "";
+      });
+    },
+    update() {
+      reqMemberedit(this.user).then((res) => {
+        if (res.data.code === 200) {
+          successAlert("修改成功");
+          this.cancel();
+          this.$emit("init");
+        }
+      });
     },
   },
 };
