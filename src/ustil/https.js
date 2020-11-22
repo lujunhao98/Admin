@@ -309,7 +309,70 @@ export const reqSpecsdel = (id) => {
 }
 // ==========商品规格  结束======
 // ==========商品管理  开始======
+//文件添加
+export const reqgoodsAdd = (form) => {
+    let d = new FormData()
+    for (let i in form) {
+        d.append(i, form[i])
+    }
+    return axios({
+        url: baseUrl + "/api/goodsadd",
+        method: 'post',
+        data: d
+    })
+}
 
+//18.列表 p={page:1,size:10}
+export const reqgoodsList = (p) => {
+    return axios({
+        url: baseUrl + "/api/goodslist",
+        method: "get",
+        params: p
+    })
+}
+//26.删除
+export const reqgoodsDel = (id) => {
+    return axios({
+        url: baseUrl + "/api/goodsdelete",
+        method: "post",
+        data: qs.stringify({
+            id: id
+        })
+    })
+}
+
+// 33.详情
+export const reqgoodsDetail = id => {
+    return axios({
+        url: baseUrl + "/api/goodsinfo",
+        method: "get",
+        params: {
+            id: id
+        }
+    })
+}
+
+
+
+// 38.修改 文件
+export const reqgoodsUpdate = (user) => {
+    let d = new FormData()
+    for (let i in user) {
+        d.append(i, user[i])
+    }
+    return axios({
+        url: baseUrl + "/api/goodsedit",
+        method: "post",
+        data: d
+    })
+}
+export const reqgoodsCount = () => {
+
+    return axios({
+        url: baseUrl + "/api/goodscount",
+        method: "get",
+    })
+}
 
 
 // ==========商品管理  结束======
